@@ -12,4 +12,6 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 - Kubernetes "yük dengeleyicidir". Mevcut uygulamalar üzerindeki yükü üzerinde çalıştıkları konteynerler arasında dağıtır.
 
+- Kubernetes "ad sunucusu" sağlar. Mevcut konteynerlere erişebilmek için dns tanımları yapar.
+
 
