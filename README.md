@@ -8,4 +8,8 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 - Kubernetes "yatay ölçeklenebilirdir". Mevcut kaynak durumunuza göre konteynerlerin sayısını arttırıp azaltabiliyor.
 
+- Kubernetes "hesaplı düzenler". Mevcut kaynak ihtiyacının belirlenmesini ve konteyner özelinde kaynakların atanmasını otomatikleştirir.
+
+- Kubernetes "yük dengeleyicidir". Mevcut uygulamalar üzerindeki yükü üzerinde çalıştıkları konteynerler arasında dağıtır.
+
 
