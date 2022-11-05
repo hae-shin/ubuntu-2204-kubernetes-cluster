@@ -148,7 +148,18 @@ haeshin@master-ubuntu-2204-k8s:/proc$ free -h
 Mem:           2.9Gi       186Mi       2.5Gi       1.0Mi       268Mi       2.6Gi
 Swap:             0B          0B          0B
 </pre></code>
+Ardından kalıcı olarar swap alanını kaldırmak için /etc/fstab dosyasını düzenlememiz gerekiyor.
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ sudo vim /etc/fstab
+#/swap.img      none    swap    sw      0       0
+</pre></code>
+Tekrardan kontrol ediyoruz
+<pre><code>
+sudo mount -a
+free -h
+</pre></code>
 ## Kernel Modülünün ve sysctl'in yapılandırılması
+
 
 ## Konteyner Çalışma Ortamının Kurulumu (Hem Master Hem Worker Node'da)
 
