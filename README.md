@@ -29,6 +29,28 @@ Node kavramını Türkçe karşılığı olan boğum, yumru gibi kelimeler ile a
 
 - ***Woker Node:*** Konteynerlerin çalıştıkları ortamdır. Aynı zamanda Control Plane'e üzerinde çalışan konteynerler ve güncel durum hakkında sürekli bilgi verir. kubectl ve kubeproxy aracılığı ile API server'la haberleşir.
 
+## Gerekli Sistem Kaynakları
 
+Kubernetes Cluster'ın sağlıklı biçimde çalışabilmesi için;
 
+- Node başına 2 GB RAM ve 2 CPU kaynak
+- ***Private Registry*** kullanımlayacaksa internet erişimi
+- Node'lar arası tam erişim
 
+sağlanmalıdır.
+
+## Cluster Yapısı
+
+Burada bir Master iki Worker Node olmak üzere High Availibility sağlayabilmek için 3 adet Node kullanacağız.
+
+| Sunucu Rolleri | Sunucu Hostname'leri      | Kaynaklar      |	IP Adresi    |
+| -------------- | --------------------      | ---------      | ---------    |
+| Master Node	   | master-ubuntu-22.04-k8s	 | 3GB RAM, 2VCPU	| 192.168.1.25 |
+| Worker Node	   | worker-1-ubuntu-22.04-k8s | 3GB RAM, 2VCPU	|	192.168.1.26 |
+| Worker Node	   | worker-2-ubuntu-22.04-k8s | 3GB RAM, 2VCPU	|	192.168.1.27 |
+
+## Makinelerin Güncellenmesi
+
+Kubernetes Cluster kurulumu için gerekli paketler ve bağımlılıklar için Ubuntu sunucularımızın her birinin güncellenmiş ve yükseltilmiş olması gerekiyor.
+
+sudo apt update 
