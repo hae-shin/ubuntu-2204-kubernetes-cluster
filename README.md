@@ -69,4 +69,8 @@ sudo reboot -f
 
 ## Konteyner Çalışma Ortamının Kurulumu (Hem Master Hem Worker Node'da)
 
-## 
+## Control Plane'nin başlatılması (ilk olarak Master Node'da)
+
+## Worker Node'ların Cluster'a dahil edilmesi
+
+##
