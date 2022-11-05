@@ -60,3 +60,13 @@ Güncelleme ve yükseltme sonrası sunucuların yeniden başlatılması gerekiyo
 <pre><code>
 sudo reboot -f
 </pre></code>
+
+## kubelet, kubectl ve kubeadm 'in kurulumu
+
+## swap Alanının Devredışı Bırakılması
+
+## Kernel Modülünün ve sysctl'in yapılandırılması
+
+## Konteyner Çalışma Ortamının Kurulumu (Hem Master Hem Worker Node'da)
+
+## 
