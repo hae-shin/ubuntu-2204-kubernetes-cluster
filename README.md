@@ -124,7 +124,7 @@ kubectl set on hold.
 </pre></code>
 
 Aşağıdaki gibi versiyon kotrolü yapabiliriz
-</pre></code>
+<pre><code>
 haeshin@worker-2-ubuntu-2204-k8s:~$ kubectl version --client && kubeadm version
 WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
 Client Version: version.Info{Major:"1", Minor:"25", GitVersion:"v1.25.3", GitCommit:"434bfd82814af038ad94d62ebe59b133fcb50506", GitTreeState:"clean", BuildDate:"2022-10-12T10:57:26Z", GoVersion:"go1.19.2", Compiler:"gc", Platform:"linux/amd64"}
