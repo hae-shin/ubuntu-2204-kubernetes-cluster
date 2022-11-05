@@ -33,7 +33,7 @@ Node kavramını Türkçe karşılığı olan boğum, yumru gibi kelimeler ile a
 
 Kubernetes Cluster'ın sağlıklı biçimde çalışabilmesi için;
 
-- Node başına 2 GB RAM ve 2 CPU kaynak
+- Node başına 2GB RAM ve 2VCPU kaynak
 - ***Private Registry*** kullanımlayacaksa internet erişimi
 - Node'lar arası tam erişim
 
@@ -58,9 +58,9 @@ sudo vi /etc/hosts
 </pre></code>
 
 <pre><code>
-192.168.1.25 master-ubuntu-22.04-k8s
-192.168.1.26 worker-1-ubuntu-22.04-k8s
-192.168.1.27 worker-2-ubuntu-22.04-k8s
+**192.168.1.25** master-ubuntu-22.04-k8s
+**192.168.1.26** worker-1-ubuntu-22.04-k8s
+**192.168.1.27** worker-2-ubuntu-22.04-k8s
 </pre></code>
 
 Değişiklikten sonra ping komutu ile kontrol edilebilir.
@@ -100,8 +100,54 @@ sudo reboot -f
 
 ## kubelet, kubectl ve kubeadm 'in kurulumu
 
+Güncellemenin ardından sunucuları yeniden başlattıysak Kubernetes'in repo'sunu ve gerekli bazı araçları tüm Node'lara ekliyoruz.
+
+<pre><code>
+sudo apt install curl apt-transport-https -y
+curl -fsSL  https://packages.cloud.google.com/apt/doc/apt-key.gpg|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/k8s.gpg
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+</pre></code>
+
+Güncellemeyi tekrar yapıp gerekli paketleri yüklüyoruz.
+</pre></code>
+sudo apt update
+sudo apt install wget curl vim git kubelet kubeadm kubectl -y
+</pre></code>
+
+Ardından kubelet, kubeadm ve kubectl için güncellemeleri durduruyoruz.
+</pre></code>
+haeshin@master-ubuntu-2204-k8s:/proc$ sudo apt-mark hold kubelet kubeadm kubectl
+kubelet set on hold.
+kubeadm set on hold.
+kubectl set on hold.
+</pre></code>
+
+Aşağıdaki gibi versiyon kotrolü yapabiliriz
+</pre></code>
+haeshin@worker-2-ubuntu-2204-k8s:~$ kubectl version --client && kubeadm version
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"25", GitVersion:"v1.25.3", GitCommit:"434bfd82814af038ad94d62ebe59b133fcb50506", GitTreeState:"clean", BuildDate:"2022-10-12T10:57:26Z", GoVersion:"go1.19.2", Compiler:"gc", Platform:"linux/amd64"}
+Kustomize Version: v4.5.7
+kubeadm version: &version.Info{Major:"1", Minor:"25", GitVersion:"v1.25.3", GitCommit:"434bfd82814af038ad94d62ebe59b133fcb50506", GitTreeState:"clean", BuildDate:"2022-10-12T10:55:36Z", GoVersion:"go1.19.2", Compiler:"gc", Platform:"linux/amd64"}
+</pre></code>
+
+
+
+
 ## swap Alanının Devredışı Bırakılması
 
+Aşağıdaki komutla tüm Node'larda swap alanını devredışı bırakmamız gerekiyor.
+<pre><code>
+sudo swapoff -a 
+</pre></code>
+Yine aşağıdaki komutla swap alnının sıfırlanıp sıfırlanmadığını kontrol edebilirsiniz.
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:/proc$ free -h
+               total        used        free      shared  buff/cache   available
+Mem:           2.9Gi       186Mi       2.5Gi       1.0Mi       268Mi       2.6Gi
+Swap:             0B          0B          0B
+</pre></code>
 ## Kernel Modülünün ve sysctl'in yapılandırılması
 
 ## Konteyner Çalışma Ortamının Kurulumu (Hem Master Hem Worker Node'da)
