@@ -19,6 +19,16 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 - Kubernetes gizli bilgilerin ve yapılandırma ayarlarının yönetimini sağlar. Uygulama yapaılandırma ayarları, parolalar, API anahtarları, sertifikalar vb bilgilerin yönetimini otomatikleştirir.
 
+- Kubernetes ***Volume Management*** sağlar. Uygulamaların kullanımına göre depolama ihtiyaçlarını karşılar ve otomatikleştirir.
+
+## Kubernetes Cluster Node'lardan oluşur.
+
+Node kavramını Türkçe karşılığı olan boğum, yumru gibi kelimeler ile açıklayabilir, Kubernetes Cluster'ın birden fazla boğumdan oluşan bütüncül bir yapı olduğunu söyleyebiliriz. Node'lar rolleri özelinde birbirlerinden ayrılırlar;
+
+- ***Master Node:*** Worker Node'lardan, service'lerden, pod'lardan ve diğer bileşenlerden gelen API isteklerini karşılar, yönetir ve gereğini yapar. Cluster'ın beynidir. Control Plane olarak etcd, controller-manager ve scheduler 'ı çalıştırır.
+
+- ***Woker Node:*** Konteynerlerin çalıştıkları ortamdır. Aynı zamanda Control Plane'e üzerinde çalışan konteynerler ve güncel durum hakkında sürekli bilgi verir. kubectl ve kubeproxy aracılığı ile API server'la haberleşir.
+
 
 
 
