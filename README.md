@@ -6,9 +6,9 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 - Kubernetes cluster "kendinden sağlıklıdır". Eğer konteynerlerinizden birisi ölürse kubernetes ortamı hemen tekrardan yenisi oluşturuyor.
 
-- Kubernetes *Horizontal Scaling* sağlar. Mevcut kaynak durumunuza göre konteynerlerin sayısını arttırıp azaltabiliyor.
+- Kubernetes ***Horizontal Scaling*** sağlar. Mevcut kaynak durumunuza göre konteynerlerin sayısını arttırıp azaltabiliyor.
 
-- Kubernetes *Compute Scheduling sağlar. Mevcut kaynak ihtiyacının belirlenmesini ve konteyner özelinde kaynakların atanmasını otomatikleştirir.
+- Kubernetes ***Compute Scheduling*** sağlar. Mevcut kaynak ihtiyacının belirlenmesini ve konteyner özelinde kaynakların atanmasını otomatikleştirir.
 
 - Kubernetes LoadBalance sağlar. Mevcut uygulamalar üzerindeki yükü üzerinde çalıştıkları konteynerler arasında dağıtır.
 
