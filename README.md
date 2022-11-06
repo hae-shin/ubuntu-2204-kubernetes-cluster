@@ -148,23 +148,118 @@ haeshin@master-ubuntu-2204-k8s:/proc$ free -h
 Mem:           2.9Gi       186Mi       2.5Gi       1.0Mi       268Mi       2.6Gi
 Swap:             0B          0B          0B
 </pre></code>
-Ardından kalıcı olarar swap alanını kaldırmak için /etc/fstab dosyasını düzenlememiz gerekiyor.
+## Kernel Modülünün Aktif Edilmesi
 <pre><code>
-haeshin@master-ubuntu-2204-k8s:~$ sudo vim /etc/fstab
-#/swap.img      none    swap    sw      0       0
+sudo modprobe overlay
+sudo modprobe br_netfilter
 </pre></code>
-Tekrardan kontrol ediyoruz
+# sysctl'in Yapılandırılması
+/etc/sysctl.d/kubernetes.conf dosyasının oluşturup aşağıdaki satırları ekliyoruz.
 <pre><code>
-sudo mount -a
-free -h
+sudo vi /etc/sysctl.d/kubernetes.conf
 </pre></code>
-## Kernel Modülünün ve sysctl'in yapılandırılması
+<pre><code>
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+</pre></code>
+Ardından değişiklikleri görebilmesi için sysctl'i reload ediyoruz.
+<pre><code>
+sudo sysctl --system
+</pre></code>
+
+## Konteyner Çalışma Ortamının Kurulumu
+
+Pod'ların içerisinde konteynerlerin çalışabilmesi için tüm Node'larda konteyner çalışma ortamı kurulmalıdır. Üç farklı seçeneğimiz bulunuyor;
+
+- Docker
+- CRI-O
+- Containerd
+
+Biz Containerd seçeneği ile devam edeceğiz kurulumumuza.
+
+# Modül Yüklemelerinin Kalıcılaştırıyoruz.
+
+/etc/modules-load.d/k8s.conf dosyasını oluşturup. İçerisine aşağıdaki satırları ekliyoruz.
+<pre><code>
+sudo vi /etc/modules-load.d/k8s.conf
+</pre></code>
+
+<pre><code>
+overlay
+br_netfilter
+</pre></code>
+
+# Gerekli Paketleri Yüklüyoruz.
+<pre><code>
+sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
+</pre></code>
+
+# Docker Repository'sini ekliyoruz.
+<pre><code>
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+</pre></code>
+# Containerd'yi kuruyoruz.
+<pre><code>
+sudo apt update
+sudo apt install -y containerd.io
+</pre></code>
+
+# Containerd yapılandırma ayarlarını oluşturuyoruz.
+<pre><code>
+sudo su -
+mkdir -p /etc/containerd
+containerd config default>/etc/containerd/config.toml
+</pre></code>
+
+# Containerd'yi yeniden başlatalım.
+
+<pre><code>
+sudo systemctl restart containerd
+sudo systemctl enable containerd
+systemctl status containerd
+</pre></code>
+
+![image](https://user-images.githubusercontent.com/116150600/200186159-9c11626f-6cd8-4725-bb36-36eca5dab4d1.png)
+
+# cgroup driver
+
+systemd cgroup driver'ını kullanmak istiyorsak /etc/containerd/config.toml dosyamıza aşağıdaki satırı eklememiz gerekiyor.
+<pre><code>
+plugins.cri.systemd_cgroup = true
+</pre></code>
 
 
-## Konteyner Çalışma Ortamının Kurulumu (Hem Master Hem Worker Node'da)
+## Control Plane'nin başlatılması (Master Node'da)
 
-## Control Plane'nin başlatılması (ilk olarak Master Node'da)
-
+İlk olarak br_netfilter module'unun duğru biçimde yüklenip yüklenmediğini kontrol edelim.
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ lsmod | grep br_netfilter
+br_netfilter           32768  0
+bridge                307200  1 br_netfilter
+</pre></code>
+Ardından kubelet servisini aktifleştirelim.
+<pre><code>
+sudo systemctl enable kubelet
+</pre></code>
+Sonraki aşamada ise Control Plane'nin bileşenlerini(etcd, kube-apiserver vb.) kubeadm ile çekiyoruz.
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ sudo kubeadm config images pull
+[config/images] Pulled registry.k8s.io/kube-apiserver:v1.25.3
+[config/images] Pulled registry.k8s.io/kube-controller-manager:v1.25.3
+[config/images] Pulled registry.k8s.io/kube-scheduler:v1.25.3
+[config/images] Pulled registry.k8s.io/kube-proxy:v1.25.3
+[config/images] Pulled registry.k8s.io/pause:3.8
+[config/images] Pulled registry.k8s.io/etcd:3.5.4-0
+[config/images] Pulled registry.k8s.io/coredns/coredns:v1.9.3
+</pre></code>
+Eğer birden fazla cri socket bulunuyorsa "--cri-socket" parametresi ile kullanmak istediğinizi belirtmelisiniz.
+<pre><code>
+sudo kubeadm config images pull --cri-socket /var/run/crio/crio.sock
+sudo kubeadm config images pull --cri-socket /run/containerd/containerd.sock
+sudo kubeadm config images pull --cri-socket /run/cri-dockerd.sock 
+</pre></code>
 ## Worker Node'ların Cluster'a dahil edilmesi
 
 ##
