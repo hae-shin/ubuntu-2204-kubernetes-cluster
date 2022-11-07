@@ -58,9 +58,9 @@ sudo vi /etc/hosts
 </pre></code>
 
 <pre><code>
-192.168.1.25 master-ubuntu-22.04-k8s
-192.168.1.26 worker-1-ubuntu-22.04-k8s
-192.168.1.27 worker-2-ubuntu-22.04-k8s
+192.168.1.25 master-ubuntu-2204-k8s
+192.168.1.26 worker-1-ubuntu-2204-k8s
+192.168.1.27 worker-2-ubuntu-2204-k8s
 </pre></code>
 
 Değişiklikten sonra ping komutu ile kontrol edilebilir.
