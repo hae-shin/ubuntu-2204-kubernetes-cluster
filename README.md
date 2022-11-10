@@ -30,7 +30,20 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 ![image](https://user-images.githubusercontent.com/116150600/201122730-677a4ec3-5998-4d8a-a418-dee3d50e2682.png)
 
+# Control Plane Bileşenleri
 
+- **kube-apiserver:**
+- **etcd:**
+- **kube-scheduler:**
+- **kube-controller-manager:** 
+- **cloud-controller-manager:** 
+
+
+# Node Bileşenleri
+
+- **kubelet:**
+- **kube-proxy:**
+- **Container runtime:** 
 
 ## Kubernetes Cluster Node'lardan oluşur.
 
