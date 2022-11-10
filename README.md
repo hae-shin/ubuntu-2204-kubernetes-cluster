@@ -28,6 +28,9 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 
 ## Kubernetes'in Bileşenleri
 
+![image](https://user-images.githubusercontent.com/116150600/201122730-677a4ec3-5998-4d8a-a418-dee3d50e2682.png)
+
+
 
 ## Kubernetes Cluster Node'lardan oluşur.
 
@@ -420,4 +423,48 @@ Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 
 ![image](https://user-images.githubusercontent.com/116150600/201110731-d9b98d4e-3e0a-468e-80c1-218fbf82c9d9.png)
 
-##
+## Kubernetes Dashboard Kurulum
+
+<pre><code>
+
+haeshin@master-ubuntu-2204-k8s:~$ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml
+--2022-11-10 14:50:30--  https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 7621 (7.4K) [text/plain]
+Saving to: ‘recommended.yaml’
+
+recommended.yaml                         100%[================================================================================>]   7.44K  --.-KB/s    in 0.002s  
+
+2022-11-10 14:50:30 (3.06 MB/s) - ‘recommended.yaml’ saved [7621/7621]
+
+haeshin@master-ubuntu-2204-k8s:~$ ls
+kube-flannel.yml  recommended.yaml
+
+
+---
+
+haeshin@master-ubuntu-2204-k8s:~$ kubectl apply -f recommended.yaml 
+namespace/kubernetes-dashboard created
+serviceaccount/kubernetes-dashboard created
+service/kubernetes-dashboard created
+secret/kubernetes-dashboard-certs created
+secret/kubernetes-dashboard-csrf created
+secret/kubernetes-dashboard-key-holder created
+configmap/kubernetes-dashboard-settings created
+role.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrole.rbac.authorization.k8s.io/kubernetes-dashboard created
+rolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+deployment.apps/kubernetes-dashboard created
+service/dashboard-metrics-scraper created
+deployment.apps/dashboard-metrics-scraper created
+
+
+haeshin@master-ubuntu-2204-k8s:~$ kubectl get pods -n kubernetes-dashboard
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-64bcc67c9c-jvhfv   1/1     Running   0          49s
+kubernetes-dashboard-66c887f759-4qdkv        1/1     Running   0          49s
+
+</pre></code>
