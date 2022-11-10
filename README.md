@@ -115,6 +115,8 @@ sudo apt update
 sudo apt install wget curl vim git kubelet kubeadm kubectl -y
 </pre></code>
 
+Link: https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
 Ardından kubelet, kubeadm ve kubectl için güncellemeleri durduruyoruz.
 </pre></code>
 haeshin@master-ubuntu-2204-k8s:/proc$ sudo apt-mark hold kubelet kubeadm kubectl
@@ -243,7 +245,18 @@ systemctl status containerd
 
 systemd cgroup driver'ını kullanmak istiyorsak /etc/containerd/config.toml dosyamıza aşağıdaki satırı eklememiz gerekiyor.
 <pre><code>
-plugins.cri.systemd_cgroup = true
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = ""
+            CriuImagePath = ""
+            CriuPath = ""
+            CriuWorkPath = ""
+            IoGid = 0
+            IoUid = 0
+            NoNewKeyring = false
+            NoPivotRoot = false
+            Root = ""
+            ShimCgroup = ""
+            SystemdCgroup = true
 </pre></code>
 
 
@@ -275,6 +288,79 @@ Eğer birden fazla cri socket bulunuyorsa "--cri-socket" parametresi ile kullanm
 sudo kubeadm config images pull --cri-socket /var/run/crio/crio.sock
 sudo kubeadm config images pull --cri-socket /run/containerd/containerd.sock
 sudo kubeadm config images pull --cri-socket /run/cri-dockerd.sock 
+</pre></code>
+Şimdi kubeadm ile cluster kurulumunu başlatalım.
+<pre><code>
+sudo kubeadm init \
+  --pod-network-cidr=10.244.0.0/16
+</pre></code>
+Aşağıdaki çıktı cluster kurulumunun başarıyla sonuçlandığını gösteriyor.
+<pre><code>
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 192.168.1.25:6443 --token rxlytp.m963obz7840h3mx4 \
+        --discovery-token-ca-cert-hash sha256:2f0ee2ed94a0fc8b8679a7b6225f0b622182a145a12a3c95d21423f1971a533d 
+</pre></code>
+Yukarıdaki çıktıda bize söylediği gibi .kube gizli dosyasını oluşturup içerisine config'imizi atıyoruz
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config^C
+haeshin@master-ubuntu-2204-k8s:~$ mkdir -p $HOME/.kube
+haeshin@master-ubuntu-2204-k8s:~$ sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+haeshin@master-ubuntu-2204-k8s:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+haeshin@master-ubuntu-2204-k8s:~$ kubectl cluster-info
+Kubernetes control plane is running at https://192.168.1.25:6443
+CoreDNS is running at https://192.168.1.25:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+</pre></code>
+## Network plugin kurulumu
+flannel network plugin'i kullanacağız.
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ wget https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+--2022-11-10 12:44:16--  https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4583 (4.5K) [text/plain]
+Saving to: ‘kube-flannel.yml’
+
+kube-flannel.yml                         100%[================================================================================>]   4.48K  --.-KB/s    in 0.001s  
+
+2022-11-10 12:44:16 (6.88 MB/s) - ‘kube-flannel.yml’ saved [4583/4583]
+
+haeshin@master-ubuntu-2204-k8s:~$ ls
+kube-flannel.yml
+</pre></code>
+
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ kubectl apply -f kube-flannel.yml
+namespace/kube-flannel created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds created
+</pre></code>
+
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ kubectl get pods -n kube-flannel
+NAME                    READY   STATUS    RESTARTS   AGE
+kube-flannel-ds-nqcqs   1/1     Running   0          60s
 </pre></code>
 ## Worker Node'ların Cluster'a dahil edilmesi
 
