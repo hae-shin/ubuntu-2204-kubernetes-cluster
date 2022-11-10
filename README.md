@@ -409,4 +409,11 @@ This node has joined the cluster:
 
 Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 </pre></code>
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ kubectl get nodes -o wide
+NAME                       STATUS   ROLES           AGE     VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+master-ubuntu-2204-k8s     Ready    control-plane   92m     v1.25.3   192.168.1.25   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
+worker-1-ubuntu-2204-k8s   Ready    <none>          8m25s   v1.25.3   192.168.1.26   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
+worker-2-ubuntu-2204-k8s   Ready    <none>          2m5s    v1.25.3   192.168.1.27   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
+</pre></code>
 ##
