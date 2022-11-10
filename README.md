@@ -3,7 +3,10 @@
 
 ## Kubernetes Nedir ?
 
-Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynaktır. Kubernetes'in temel işlevi konteyner'da çalışmak üzere geliştirilen uygulamaları orkestra etmektir. Orkestra etmek işlevi biraz açalım.
+Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynaktır. Kubernetes'in temel işlevi konteyner'da çalışmak üzere geliştirilen uygulamaları orkestra etmektir. Konteyner teknolojisini ve orkestra etmek işlevini biraz açalım.
+
+![image](https://user-images.githubusercontent.com/116150600/201118995-c5b4283f-97ef-4284-99f1-47bc9709b7ab.png)
+
 
 - Kubernetes cluster ***Self-Healing***. Eğer konteynerlerinizden birisi ölürse kubernetes ortamı hemen tekrardan yenisi oluşturuyor.
 
@@ -20,6 +23,11 @@ Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynakt
 - Kubernetes gizli bilgilerin ve yapılandırma ayarlarının yönetimini sağlar. Uygulama yapaılandırma ayarları, parolalar, API anahtarları, sertifikalar vb bilgilerin yönetimini otomatikleştirir.
 
 - Kubernetes ***Volume Management*** sağlar. Uygulamaların kullanımına göre depolama ihtiyaçlarını karşılar ve otomatikleştirir.
+
+**Kaynak:** https://kubernetes.io/docs/concepts/overview/
+
+## Kubernetes'in Bileşenleri
+
 
 ## Kubernetes Cluster Node'lardan oluşur.
 
@@ -409,11 +417,7 @@ This node has joined the cluster:
 
 Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 </pre></code>
-<pre><code>
-haeshin@master-ubuntu-2204-k8s:~$ kubectl get nodes -o wide
-NAME                       STATUS   ROLES           AGE     VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
-master-ubuntu-2204-k8s     Ready    control-plane   92m     v1.25.3   192.168.1.25   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
-worker-1-ubuntu-2204-k8s   Ready    <none>          8m25s   v1.25.3   192.168.1.26   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
-worker-2-ubuntu-2204-k8s   Ready    <none>          2m5s    v1.25.3   192.168.1.27   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
-</pre></code>
+
+![image](https://user-images.githubusercontent.com/116150600/201110731-d9b98d4e-3e0a-468e-80c1-218fbf82c9d9.png)
+
 ##
