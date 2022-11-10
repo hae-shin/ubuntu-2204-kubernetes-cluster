@@ -343,10 +343,10 @@ kube-flannel.yml                         100%[==================================
 
 2022-11-10 12:44:16 (6.88 MB/s) - ‘kube-flannel.yml’ saved [4583/4583]
 
+
+</pre></code>
 haeshin@master-ubuntu-2204-k8s:~$ ls
 kube-flannel.yml
-</pre></code>
-
 <pre><code>
 haeshin@master-ubuntu-2204-k8s:~$ kubectl apply -f kube-flannel.yml
 namespace/kube-flannel created
@@ -362,6 +362,51 @@ haeshin@master-ubuntu-2204-k8s:~$ kubectl get pods -n kube-flannel
 NAME                    READY   STATUS    RESTARTS   AGE
 kube-flannel-ds-nqcqs   1/1     Running   0          60s
 </pre></code>
-## Worker Node'ların Cluster'a dahil edilmesi
 
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ kubectl get nodes -o wide
+NAME                     STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
+master-ubuntu-2204-k8s   Ready    control-plane   30m   v1.25.3   192.168.1.25   <none>        Ubuntu 22.04.1 LTS   5.15.0-52-generic   containerd://1.6.9
+</pre></code>
+## Worker Node'ların Cluster'a dahil edilmesi
+<pre><code>
+haeshin@master-ubuntu-2204-k8s:~$ kubeadm token create --print-join-command
+kubeadm join 192.168.1.25:6443 --token sfimd9.3hovd3re054g6mqs --discovery-token-ca-cert-hash sha256:2f0ee2ed94a0fc8b8679a7b6225f0b622182a145a12a3c95d21423f1971a533d 
+</pre></code>
+<pre><code>
+haeshin@worker-1-ubuntu-2204-k8s:~$ sudo kubeadm join 192.168.1.25:6443 --token sfimd9.3hovd3re054g6mqs --discovery-token-ca-cert-hash sha256:2f0ee2ed94a0fc8b8679a7b6225f0b622182a145a12a3c95d21423f1971a533d 
+[preflight] Running pre-flight checks
+        [WARNING SystemVerification]: missing optional cgroups: blkio
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+</pre></code>
+
+<pre><code>
+haeshin@worker-2-ubuntu-2204-k8s:~$ sudo kubeadm join 192.168.1.25:6443 --token sfimd9.3hovd3re054g6mqs --discovery-token-ca-cert-hash sha256:2f0ee2ed94a0fc8b8679a7b6225f0b622182a145a12a3c95d21423f1971a533d 
+[sudo] password for haeshin: 
+[preflight] Running pre-flight checks
+        [WARNING SystemVerification]: missing optional cgroups: blkio
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+</pre></code>
 ##
