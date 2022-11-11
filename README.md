@@ -594,3 +594,192 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6ImtBa2lJYWtXQW50Sks0MjUteXFLZTkxRW93b2lwQkIxamxleGt2
 ![image](https://user-images.githubusercontent.com/116150600/201135821-a88dc50a-284c-491a-948c-d9e08c199e7c.png)
 
 ![image](https://user-images.githubusercontent.com/116150600/201136093-59f1bb6f-0149-43f8-bb79-3de642f31117.png)
+
+
+## Kubernetes Monitoring
+
+git clone https://github.com/prometheus-operator/kube-prometheus.git
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ ls
+build.sh            CONTRIBUTING.md      example.jsonnet  go.mod   jsonnetfile.json           kustomization.yaml  manifests   scripts
+CHANGELOG.md        developer-workspace  examples         go.sum   jsonnetfile.lock.json      LICENSE             README.md   tests
+code-of-conduct.md  docs                 experimental     jsonnet  kubescape-exceptions.json  Makefile            RELEASE.md
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl create -f manifests/setup
+customresourcedefinition.apiextensions.k8s.io/alertmanagerconfigs.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/alertmanagers.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/podmonitors.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/probes.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheuses.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/prometheusrules.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/servicemonitors.monitoring.coreos.com created
+customresourcedefinition.apiextensions.k8s.io/thanosrulers.monitoring.coreos.com created
+namespace/monitoring created
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl get ns monitoring
+NAME         STATUS   AGE
+monitoring   Active   76s
+
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl create -f manifests/
+alertmanager.monitoring.coreos.com/main created
+networkpolicy.networking.k8s.io/alertmanager-main created
+poddisruptionbudget.policy/alertmanager-main created
+prometheusrule.monitoring.coreos.com/alertmanager-main-rules created
+secret/alertmanager-main created
+service/alertmanager-main created
+serviceaccount/alertmanager-main created
+servicemonitor.monitoring.coreos.com/alertmanager-main created
+clusterrole.rbac.authorization.k8s.io/blackbox-exporter created
+clusterrolebinding.rbac.authorization.k8s.io/blackbox-exporter created
+configmap/blackbox-exporter-configuration created
+deployment.apps/blackbox-exporter created
+networkpolicy.networking.k8s.io/blackbox-exporter created
+service/blackbox-exporter created
+serviceaccount/blackbox-exporter created
+servicemonitor.monitoring.coreos.com/blackbox-exporter created
+secret/grafana-config created
+secret/grafana-datasources created
+configmap/grafana-dashboard-alertmanager-overview created
+configmap/grafana-dashboard-apiserver created
+configmap/grafana-dashboard-cluster-total created
+configmap/grafana-dashboard-controller-manager created
+configmap/grafana-dashboard-grafana-overview created
+configmap/grafana-dashboard-k8s-resources-cluster created
+configmap/grafana-dashboard-k8s-resources-namespace created
+configmap/grafana-dashboard-k8s-resources-node created
+configmap/grafana-dashboard-k8s-resources-pod created
+configmap/grafana-dashboard-k8s-resources-workload created
+configmap/grafana-dashboard-k8s-resources-workloads-namespace created
+configmap/grafana-dashboard-kubelet created
+configmap/grafana-dashboard-namespace-by-pod created
+configmap/grafana-dashboard-namespace-by-workload created
+configmap/grafana-dashboard-node-cluster-rsrc-use created
+configmap/grafana-dashboard-node-rsrc-use created
+configmap/grafana-dashboard-nodes-darwin created
+configmap/grafana-dashboard-nodes created
+configmap/grafana-dashboard-persistentvolumesusage created
+configmap/grafana-dashboard-pod-total created
+configmap/grafana-dashboard-prometheus-remote-write created
+configmap/grafana-dashboard-prometheus created
+configmap/grafana-dashboard-proxy created
+configmap/grafana-dashboard-scheduler created
+configmap/grafana-dashboard-workload-total created
+configmap/grafana-dashboards created
+deployment.apps/grafana created
+networkpolicy.networking.k8s.io/grafana created
+prometheusrule.monitoring.coreos.com/grafana-rules created
+service/grafana created
+serviceaccount/grafana created
+servicemonitor.monitoring.coreos.com/grafana created
+prometheusrule.monitoring.coreos.com/kube-prometheus-rules created
+clusterrole.rbac.authorization.k8s.io/kube-state-metrics created
+clusterrolebinding.rbac.authorization.k8s.io/kube-state-metrics created
+deployment.apps/kube-state-metrics created
+networkpolicy.networking.k8s.io/kube-state-metrics created
+prometheusrule.monitoring.coreos.com/kube-state-metrics-rules created
+service/kube-state-metrics created
+serviceaccount/kube-state-metrics created
+servicemonitor.monitoring.coreos.com/kube-state-metrics created
+prometheusrule.monitoring.coreos.com/kubernetes-monitoring-rules created
+servicemonitor.monitoring.coreos.com/kube-apiserver created
+servicemonitor.monitoring.coreos.com/coredns created
+servicemonitor.monitoring.coreos.com/kube-controller-manager created
+servicemonitor.monitoring.coreos.com/kube-scheduler created
+servicemonitor.monitoring.coreos.com/kubelet created
+clusterrole.rbac.authorization.k8s.io/node-exporter created
+clusterrolebinding.rbac.authorization.k8s.io/node-exporter created
+daemonset.apps/node-exporter created
+networkpolicy.networking.k8s.io/node-exporter created
+prometheusrule.monitoring.coreos.com/node-exporter-rules created
+service/node-exporter created
+serviceaccount/node-exporter created
+servicemonitor.monitoring.coreos.com/node-exporter created
+clusterrole.rbac.authorization.k8s.io/prometheus-k8s created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+networkpolicy.networking.k8s.io/prometheus-k8s created
+poddisruptionbudget.policy/prometheus-k8s created
+prometheus.monitoring.coreos.com/k8s created
+prometheusrule.monitoring.coreos.com/prometheus-k8s-prometheus-rules created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s-config created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+rolebinding.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s-config created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+role.rbac.authorization.k8s.io/prometheus-k8s created
+service/prometheus-k8s created
+serviceaccount/prometheus-k8s created
+servicemonitor.monitoring.coreos.com/prometheus-k8s created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+clusterrole.rbac.authorization.k8s.io/prometheus-adapter created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-adapter created
+clusterrolebinding.rbac.authorization.k8s.io/resource-metrics:system:auth-delegator created
+clusterrole.rbac.authorization.k8s.io/resource-metrics-server-resources created
+configmap/adapter-config created
+deployment.apps/prometheus-adapter created
+networkpolicy.networking.k8s.io/prometheus-adapter created
+poddisruptionbudget.policy/prometheus-adapter created
+rolebinding.rbac.authorization.k8s.io/resource-metrics-auth-reader created
+service/prometheus-adapter created
+serviceaccount/prometheus-adapter created
+servicemonitor.monitoring.coreos.com/prometheus-adapter created
+clusterrole.rbac.authorization.k8s.io/prometheus-operator created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus-operator created
+deployment.apps/prometheus-operator created
+networkpolicy.networking.k8s.io/prometheus-operator created
+prometheusrule.monitoring.coreos.com/prometheus-operator-rules created
+service/prometheus-operator created
+serviceaccount/prometheus-operator created
+servicemonitor.monitoring.coreos.com/prometheus-operator created
+
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl get pods -n monitoring
+NAME                                   READY   STATUS    RESTARTS      AGE
+alertmanager-main-0                    2/2     Running   1 (57s ago)   79s
+alertmanager-main-1                    2/2     Running   1 (57s ago)   79s
+alertmanager-main-2                    2/2     Running   1 (57s ago)   79s
+blackbox-exporter-59cccb5797-2fphc     3/3     Running   0             3m33s
+grafana-76d67c8b47-j852d               1/1     Running   0             3m31s
+kube-state-metrics-6d68f89c45-9k4xg    3/3     Running   0             3m31s
+node-exporter-hv9rg                    2/2     Running   0             3m31s
+node-exporter-r9k9s                    2/2     Running   0             3m30s
+node-exporter-zkgmw                    2/2     Running   0             3m30s
+prometheus-adapter-757f9b4cf9-ffn9n    1/1     Running   0             3m29s
+prometheus-adapter-757f9b4cf9-l6x7f    1/1     Running   0             3m29s
+prometheus-k8s-0                       2/2     Running   0             75s
+prometheus-k8s-1                       1/2     Running   0             74s
+prometheus-operator-67f59d65b8-6zzxr   2/2     Running   0             3m29s
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl get svc -n monitoring
+NAME                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+alertmanager-main       ClusterIP   10.108.222.85    <none>        9093/TCP,8080/TCP            9m1s
+alertmanager-operated   ClusterIP   None             <none>        9093/TCP,9094/TCP,9094/UDP   6m47s
+blackbox-exporter       ClusterIP   10.96.187.142    <none>        9115/TCP,19115/TCP           9m1s
+grafana                 ClusterIP   10.109.185.203   <none>        3000/TCP                     9m
+kube-state-metrics      ClusterIP   None             <none>        8443/TCP,9443/TCP            8m59s
+node-exporter           ClusterIP   None             <none>        9100/TCP                     8m59s
+prometheus-adapter      ClusterIP   10.108.151.237   <none>        443/TCP                      8m57s
+prometheus-k8s          ClusterIP   10.99.223.82     <none>        9090/TCP,8080/TCP            8m58s
+prometheus-operated     ClusterIP   None             <none>        9090/TCP                     6m43s
+prometheus-operator     ClusterIP   None             <none>        8443/TCP                     8m57s
+
+
+
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl --namespace monitoring patch svc prometheus-k8s -p '{"spec": {"type": "NodePort"}}'
+service/prometheus-k8s patched
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl --namespace monitoring patch svc alertmanager-main -p '{"spec": {"type": "NodePort"}}'
+service/alertmanager-main patched
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl --namespace monitoring patch svc grafana -p '{"spec": {"type": "NodePort"}}'
+service/grafana patched
+
+haeshin@master-ubuntu-2204-k8s:~/kube-prometheus$ kubectl -n monitoring get svc  | grep NodePort
+alertmanager-main       NodePort    10.108.222.85    <none>        9093:31426/TCP,8080:31696/TCP   16m
+grafana                 NodePort    10.109.185.203   <none>        3000:32291/TCP                  16m
+prometheus-k8s          NodePort    10.99.223.82     <none>        9090:32335/TCP,8080:31338/TCP   16m
+
+
+![image](https://user-images.githubusercontent.com/116150600/201350278-1fba01db-5abc-487b-8060-5f28d528c2eb.png)
