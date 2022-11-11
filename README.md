@@ -791,3 +791,11 @@ prometheus-k8s          NodePort    10.99.223.82     <none>        9090:32335/TC
 
 ![image](https://user-images.githubusercontent.com/116150600/201357183-9d7fd1cc-6b98-4fed-a739-6600a065407a.png)
 
+
+
+![image](https://user-images.githubusercontent.com/116150600/201360900-f1a1566c-a340-465e-8158-c4e82e13cee7.png)
+
+https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+
+![image](https://user-images.githubusercontent.com/116150600/201361195-79ec12b9-8079-4265-816d-2e2df223af76.png)
+
