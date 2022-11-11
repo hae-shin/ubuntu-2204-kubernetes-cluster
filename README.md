@@ -783,3 +783,11 @@ prometheus-k8s          NodePort    10.99.223.82     <none>        9090:32335/TC
 
 
 ![image](https://user-images.githubusercontent.com/116150600/201350278-1fba01db-5abc-487b-8060-5f28d528c2eb.png)
+
+
+![image](https://user-images.githubusercontent.com/116150600/201356736-37ab76d7-8f48-4e83-8b06-083aaf3d55fc.png)
+
+![image](https://user-images.githubusercontent.com/116150600/201357013-acb0ab02-2137-4856-8222-e74d074b0570.png)
+
+![image](https://user-images.githubusercontent.com/116150600/201357183-9d7fd1cc-6b98-4fed-a739-6600a065407a.png)
+
