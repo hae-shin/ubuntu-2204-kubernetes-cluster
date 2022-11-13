@@ -1,7 +1,7 @@
 # Ubuntu 22.04 Üzerinde "kubeadm" ile Kubernetes Cluster Kurulumu
 ![This is an image](https://github.com/hae-shin/ubuntu-2204-kubernetes-cluster/blob/main/kubernetes.png)
 
-## Kubernetes Nedir ?
+- [Kubernetes Nedir ?](https://github.com/hae-shin/ubuntu-2204-kubernetes-cluster/blob/main/kubernetes-nedir.md)
 
 Kubernetes (k8s) Google tarafından geliştirilen bir projedir ve açık kaynaktır. Kubernetes'in temel işlevi konteyner'da çalışmak üzere geliştirilen uygulamaları orkestra etmektir. Konteyner teknolojisini ve orkestra etmek işlevini biraz açalım.
 
